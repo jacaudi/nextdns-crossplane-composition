@@ -1,4 +1,4 @@
-name: Build and Publish Crossplane Composition
+name: Publish Latest Crossplane Composition
 
 on:
   push:

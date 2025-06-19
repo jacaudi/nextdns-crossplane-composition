@@ -1,4 +1,4 @@
-name: Build and Publish Crossplane Composition
+name: Publish Tagged Crossplane Composition
 
 on:
   push:
