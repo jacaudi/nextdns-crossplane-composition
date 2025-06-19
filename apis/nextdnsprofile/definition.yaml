@@ -1,9 +1,9 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: profiles.nextdns.crossplane.io
+  name: profiles.nextdns.jacaudi.io
 spec:
-  group: nextdns.crossplane.io
+  group: nextdns.jacaudi.io
   names:
     kind: Profile
     listKind: ProfileList

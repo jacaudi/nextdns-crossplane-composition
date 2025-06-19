@@ -70,7 +70,7 @@ kubectl get composition
 
 ## Troubleshooting
 - Ensure all Crossplane pods, provider-http, and function-go-templating pods are running in the `crossplane-system` namespace.
-- Check CRD status with `kubectl get crd profiles.nextdns.crossplane.io`.
+- Check CRD status with `kubectl get crd profiles.nextdns.jacaudi.io`.
 - Check resource status with `kubectl describe profile <name>`.
 - Review provider and function logs for errors.
 

@@ -1,4 +1,4 @@
-apiVersion: nextdns.crossplane.io/v1alpha1
+apiVersion: nextdns.jacaudi.io/v1alpha1
 kind: Profile
 metadata:
   name: test-profile
