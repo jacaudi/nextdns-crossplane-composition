@@ -1,0 +1,46 @@
+apiVersion: nextdns.crossplane.io/v1alpha1
+kind: Profile
+metadata:
+  name: test-profile
+  namespace: crossplane-system
+spec:
+  name: test
+  apiKeySecret: 
+    name: nextdns-api-key
+    namespace: crossplane-system
+    key: api-key
+  privacy:
+    disguisedTrackers: true
+    allowAffiliate: false
+    natives:
+      - id: windows
+      - id: apple
+      - id: samsung
+      - id: xiaomi
+      - id: huawei
+      - id: alexa
+      - id: roku
+      - id: sonos
+  security:
+    threatIntelligenceFeeds: true
+    aiThreatDetection: true
+    googleSafeBrowsing: true
+    cryptojacking: true
+    dnsRebinding: false
+    idnHomographs: true
+    typosquatting: true
+    dga: true
+    nrd: true
+    ddns: true
+    parking: true
+    csam: true
+    tlds:
+      - id: ru
+      - id: ch
+      - id: pizza
+  parentalControl:
+    safeSearch: false
+    youtubeRestrictedMode: true
+  denylist:
+    - id: accuweather.com
+      active: true

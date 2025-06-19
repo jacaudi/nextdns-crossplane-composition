@@ -1,0 +1,101 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: profiles.nextdns.crossplane.io
+spec:
+  compositeTypeRef:
+    apiVersion: nextdns.crossplane.io/v1alpha1
+    kind: Profile
+  mode: Pipeline
+  pipeline:
+    - step: render-templates
+      functionRef:
+        name: function-go-templating
+      input:
+        apiVersion: gotemplating.fn.crossplane.io/v1beta1
+        kind: GoTemplate
+        source: Inline
+        inline:
+          template: |
+            apiVersion: http.crossplane.io/v1alpha2
+            kind: Request
+            metadata:
+              name: {{ .observed.composite.resource.spec.name | lower }}-nextdns-profile
+              annotations:
+                gotemplating.fn.crossplane.io/composition-resource-name: {{ .observed.composite.resource.spec.name | lower }}-nextdns-profile
+            spec:
+              providerConfigRef:
+                name: http-conf-nextdns
+              forProvider:
+                payload:
+                  baseUrl: https://api.nextdns.io
+                headers:
+                  Content-Type:
+                    - application/json
+                  X-Api-Key:
+                    - '{{"{{"}} {{ .observed.composite.resource.spec.apiKeySecret.name }}:{{ .observed.composite.resource.spec.apiKeySecret.namespace }}:{{ .observed.composite.resource.spec.apiKeySecret.key }} {{"}}"}}'
+                mappings:
+                  - method: "POST"
+                    url: (.payload.baseUrl + "/profiles")
+                    body: |
+                      {
+                        "name": {{ .observed.composite.resource.spec.name | toJson }}
+                      }
+                  - method: "PATCH"
+                    action: "UPDATE"
+                    url: (.payload.baseUrl + "/profiles/" + (.response.body.data.id | tostring))
+                    body: |
+                      {
+                        "name": {{ .observed.composite.resource.spec.name | toJson }}
+                        {{- if .observed.composite.resource.spec.security }},
+                        "security": {{ .observed.composite.resource.spec.security | toJson }}
+                        {{- end }}
+                        {{- if .observed.composite.resource.spec.privacy }},
+                        "privacy": {{ .observed.composite.resource.spec.privacy | toJson }}
+                        {{- end }}
+                        {{- if .observed.composite.resource.spec.parentalControl }},
+                        "parentalControl": {{ .observed.composite.resource.spec.parentalControl | toJson }}
+                        {{- end }}
+                        {{- if .observed.composite.resource.spec.denylist }},
+                        "denylist": {{ .observed.composite.resource.spec.denylist | toJson }}
+                        {{- end }}
+                        {{- if .observed.composite.resource.spec.allowlist }},
+                        "allowlist": {{ .observed.composite.resource.spec.allowlist | toJson }}
+                        {{- end }}
+                        {{- if .observed.composite.resource.spec.settings }},
+                        "settings": {{ .observed.composite.resource.spec.settings | toJson }}
+                        {{- end }}
+                      }
+                  - method: "GET"
+                    url: (.payload.baseUrl + "/profiles/" + (.response.body.data.id | tostring))
+                    body: ""
+                  - method: "DELETE"
+                    url: (.payload.baseUrl + "/profiles/" + (.response.body.data.id | tostring))
+                    body: ""
+                secretInjectionConfigs: 
+                  - secretRef:
+                      name: nextdns-profile-config
+                      namespace: {{ .observed.composite.resource.metadata.namespace | default "crossplane-system" }}
+                    keyMappings:
+                      - secretKey: profile-id
+                        responseJQ: .body.data.id
+                        missingFieldStrategy: preserve
+                      - secretKey: ipv4-primary-address
+                        responseJQ: .body.data.setup.linkedIp.servers[0]
+                        missingFieldStrategy: preserve
+                      - secretKey: ipv4-secondary-address
+                        responseJQ: .body.data.setup.linkedIp.servers[1]
+                        missingFieldStrategy: preserve
+                      - secretKey: ipv6-primary-address
+                        responseJQ: .body.data.setup.ipv6[0]
+                        missingFieldStrategy: preserve
+                      - secretKey: ipv6-secondary-address
+                        responseJQ: .body.data.setup.ipv6[1]
+                        missingFieldStrategy: preserve
+                      - secretKey: dnscrypt-config
+                        responseJQ: .body.data.setup.dnscrypt
+                        missingFieldStrategy: preserve
+                    setOwnerReference: true
+    - step: automatically-detect-ready-composed-resources
+      functionRef:
+        name: function-auto-ready

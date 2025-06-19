@@ -1,0 +1,187 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: profiles.nextdns.crossplane.io
+spec:
+  group: nextdns.crossplane.io
+  names:
+    kind: Profile
+    listKind: ProfileList
+    plural: profiles
+    singular: profile
+  versions:
+    - name: v1alpha1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec:
+              type: object
+              properties:
+                name:
+                  type: string
+                apiKeySecret:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    namespace:
+                      type: string
+                    key:
+                      type: string
+                security:
+                  type: object
+                  properties:
+                    aiThreatDetection:
+                      type: boolean
+                    csam:
+                      type: boolean
+                    cryptojacking:
+                      type: boolean
+                    ddns:
+                      type: boolean
+                    dga:
+                      type: boolean
+                    dnsRebinding:
+                      type: boolean
+                    googleSafeBrowsing:
+                      type: boolean
+                    idnHomographs:
+                      type: boolean
+                    nrd:
+                      type: boolean
+                    parking:
+                      type: boolean
+                    threatIntelligenceFeeds:
+                      type: boolean
+                    tlds:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          active:
+                            type: boolean
+                    typosquatting:
+                      type: boolean
+                privacy:
+                  type: object
+                  properties:
+                    allowAffiliate:
+                      type: boolean
+                    blocklists:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          active:
+                            type: boolean
+                    disguisedTrackers:
+                      type: boolean
+                    natives:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          active:
+                            type: boolean
+                parentalControl:
+                  type: object
+                  properties:
+                    blockBypass:
+                      type: boolean
+                    categories:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          active:
+                            type: boolean
+                    safeSearch:
+                      type: boolean
+                    services:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          active:
+                            type: boolean
+                    youtubeRestrictedMode:
+                      type: boolean
+                denylist:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      active:
+                        type: boolean
+                allowlist:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      active:
+                        type: boolean
+                settings:
+                  type: object
+                  properties:
+                    blockPage:
+                      type: object
+                      properties:
+                        enabled:
+                          type: boolean
+                    logs:
+                      type: object
+                      properties:
+                        drop:
+                          type: object
+                          properties:
+                            domain:
+                              type: boolean
+                            ip:
+                              type: boolean
+                        enabled:
+                          type: boolean
+                        location:
+                          type: string
+                        retention:
+                          type: integer
+                    performance:
+                      type: object
+                      properties:
+                        cacheBoost:
+                          type: boolean
+                        cnameFlattening:
+                          type: boolean
+                        ecs:
+                          type: boolean
+                    web3:
+                      type: boolean
+              required:
+                - name
+            status:
+              description: A Status represents the observed state
+              properties:
+                http:
+                  description: Freeform field containing status information for http request
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                profileId:
+                  description: The NextDNS profile ID returned by the API
+                  type: string
+              type: object
