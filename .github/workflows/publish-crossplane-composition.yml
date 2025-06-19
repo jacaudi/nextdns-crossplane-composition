@@ -34,5 +34,5 @@ jobs:
         run: |
           echo "### Publish .xpkg to GHCR"
           TAG_NAME=${GITHUB_REF#refs/tags/}
-          crossplane xpkg push "ghcr.io/${{ github.repository_owner }}/nextdns-crossplane-composition:${TAG_NAME}" --domain=https://ghcr.io --package-files="nextdns-crossplane-composition.xpkg"
+          crossplane xpkg push "ghcr.io/${{ github.repository_owner }}/nextdns-crossplane-composition:${TAG_NAME}" --domain=https://ghcr.io --verbose
 
