@@ -34,5 +34,7 @@ jobs:
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
+          UP_USER=${{ github.actor }}
+          UP_PASSWORD=${{ secrets.GITHUB_TOKEN }}
           crossplane xpkg push "ghcr.io/jacaudi/nextdns-crossplane-composition:latest" --domain=https://ghcr.io --verbose
 
