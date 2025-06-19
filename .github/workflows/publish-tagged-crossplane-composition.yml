@@ -24,7 +24,7 @@ jobs:
         run: |
           curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
           sudo mv crossplane /usr/local/bin
-          crossplane version
+          crossplane --version
 
       - name: Build Crossplane Configuration package
         run: |
