@@ -34,5 +34,5 @@ jobs:
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
-          crossplane xpkg push "ghcr.io/${{ github.repository_owner }}/nextdns-crossplane-composition:latest" --domain=https://ghcr.io --verbose
+          crossplane xpkg push "ghcr.io/jacaudi/nextdns-crossplane-composition:latest" --domain=https://ghcr.io --verbose
 
