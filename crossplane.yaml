@@ -7,9 +7,9 @@ metadata:
     meta.crossplane.io/source: github.com/jacaudi/crossplane-nextdns-composition
     meta.crossplane.io/license: APL-2.0
     meta.crossplane.io/description: |
-      Crossplane Configuration that allows you to create and manage NextDNS Profiles.
+      A Crossplane configuration that allows you to create and manage NextDNS Profiles.
     meta.crossplane.io/readme: |
-      Featuring a Composition with multiple MRs ( ProviderConfig and Request ) that can be used to create a NextDNS Profile.
+      Featuring a Composition with a HTTP Managed Resource that can be used to create a NextDNS Profile.
 spec:
   dependsOn:
     - provider: ghcr.io/crossplane-contrib/provider-http
