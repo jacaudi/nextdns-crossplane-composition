@@ -1,6 +1,7 @@
 name: Publish Latest Crossplane Composition
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
