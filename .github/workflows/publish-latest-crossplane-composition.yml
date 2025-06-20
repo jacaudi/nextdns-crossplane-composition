@@ -16,7 +16,6 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          logout: false
           registry: ghcr.io
           username: ${{ github.actor }}
           password: "${{ secrets.GITHUB_TOKEN }}"
@@ -35,5 +34,5 @@ jobs:
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
-          crossplane xpkg push --domain=oci://ghcr.io --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
+          crossplane xpkg push --verbose --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest
 
