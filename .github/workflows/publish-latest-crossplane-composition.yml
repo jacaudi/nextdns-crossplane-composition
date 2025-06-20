@@ -1,5 +1,4 @@
-name: Publish Latest Crossplane Composition
-
+# This workflow builds and publishes the Crossplane configuration package to GitHub Container Registry (GHCR).
 on:
   workflow_dispatch:
   push:
