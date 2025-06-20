@@ -29,11 +29,11 @@ jobs:
       - name: Build Crossplane Configuration package
         run: |
           echo "### Build Configuration .xpkg file"
-          crossplane xpkg build --package-file="nextdns-crossplane-composition.xpkg" --package-root=. --examples-root="./example" --ignore=".github/workflows/*" --verbose
+          crossplane xpkg build --package-file="package.xpkg" --package-root=. --examples-root="./example" --ignore=".github/workflows/*" --verbose
      
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
           TAG_NAME=${GITHUB_REF#refs/tags/}
-          crossplane xpkg push "ghcr.io/${{ github.repository_owner }}/nextdns-crossplane-composition:${TAG_NAME}" --domain=https://ghcr.io --verbose
+          crossplane xpkg push --verbose --package-files=package.xpkg "ghcr.io/${{ github.repository_owner }}/nextdns-crossplane-composition:${TAG_NAME}"
 
