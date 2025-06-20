@@ -34,5 +34,5 @@ jobs:
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
-          crossplane xpkg push --package-files=package.xpkg oci://ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
+          crossplane xpkg push --domain=oci://ghcr.io --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
 
