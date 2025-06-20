@@ -74,7 +74,7 @@ spec:
                     body: ""
                 secretInjectionConfigs: 
                   - secretRef:
-                      name: nextdns-profile-config
+                      name: {{ .observed.composite.resource.spec.name | lower }}-nextdns-config
                       namespace: {{ .observed.composite.resource.metadata.namespace | default "crossplane-system" }}
                     keyMappings:
                       - secretKey: profile-id
