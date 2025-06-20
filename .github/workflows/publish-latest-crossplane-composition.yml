@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
       - name: Install Crossplane CLI
         run: |
           curl -sL "https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh" | sh
@@ -27,6 +34,5 @@ jobs:
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
-          printf "%s" "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
-          crossplane xpkg push --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
+          crossplane xpkg push --domain=https://ghcr.io --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
 
