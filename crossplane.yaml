@@ -14,9 +14,12 @@ spec:
   dependsOn:
     - provider: ghcr.io/crossplane-contrib/provider-http
       version: ">=v1.0.10"
+      name: provider-http
     - function: xpkg.upbound.io/crossplane-contrib/function-go-templating
       version: ">=v0.4.0"
+      name: function-go-templating
     - function: xpkg.upbound.io/crossplane-contrib/function-auto-ready
       version: ">=v0.2.1"
+      name: function-auto-ready
   crossplane:
     version: ">=v1.20-0"
