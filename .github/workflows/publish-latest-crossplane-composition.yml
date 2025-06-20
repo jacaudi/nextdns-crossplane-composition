@@ -22,11 +22,11 @@ jobs:
       - name: Build Crossplane Configuration package
         run: |
           echo "### Build Configuration .xpkg file"
-          crossplane xpkg build --package-file="nextdns-crossplane-composition.xpkg" --package-root=. --examples-root="./example" --ignore=".github/workflows/*" --verbose
+          crossplane xpkg build --package-file="package.xpkg" --package-root=. --examples-root="./example" --ignore=".github/workflows/*" --verbose
       
       - name: Publish Configuration package to GHCR
         run: |
           echo "### Publish .xpkg to GHCR"
-          docker login ghcr.io -u "${{ github.actor }}" -p "${{ secrets.GITHUB_TOKEN }}"
-          crossplane xpkg push "ghcr.io/jacaudi/nextdns-crossplane-composition:latest" --domain=ghcr.io --verbose
+          printf "%s" "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          crossplane xpkg push --package-files=package.xpkg ghcr.io/jacaudi/nextdns-crossplane-composition:latest --verbose
 
