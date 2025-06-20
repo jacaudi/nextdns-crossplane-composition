@@ -8,6 +8,10 @@ on:
 
 jobs:
   publish-crossplane-composition:
+    permissions:
+      packages: write
+      contents: read
+      
     name: Build & Publish Crossplane Configuration Package
     runs-on: ubuntu-latest
     steps:
