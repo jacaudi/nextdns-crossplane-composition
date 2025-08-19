@@ -112,21 +112,25 @@ spec:
                 denylist:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      active:
-                        type: boolean
+                    oneOf:
+                      - type: string
+                      - type: object
+                        properties:
+                          active:
+                            type: boolean
+                        additionalProperties:
+                          type: string
                 allowlist:
                   type: array
                   items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      active:
-                        type: boolean
+                    oneOf:
+                      - type: string
+                      - type: object
+                        properties:
+                          active:
+                            type: boolean
+                        additionalProperties:
+                          type: string
                 settings:
                   type: object
                   properties:

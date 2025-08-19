@@ -83,10 +83,40 @@ spec:
                         "parentalControl": {{ .observed.composite.resource.spec.parentalControl | toJson }}
                         {{- end }}
                         {{- if .observed.composite.resource.spec.denylist }},
-                        "denylist": {{ .observed.composite.resource.spec.denylist | toJson }}
+                        "denylist": [
+                          {{- range $i, $entry := .observed.composite.resource.spec.denylist }}
+                          {{- if $i }},{{- end }}
+                          {{- if kindIs "string" $entry }}
+                          {"id": {{ $entry | toJson }}, "active": true}
+                          {{- else }}
+                          {{- $domain := "" }}
+                          {{- range $key, $value := $entry }}
+                          {{- if ne $key "active" }}
+                          {{- $domain = $key }}
+                          {{- end }}
+                          {{- end }}
+                          {"id": {{ $domain | toJson }}, "active": {{ $entry.active | default true }}}
+                          {{- end }}
+                          {{- end }}
+                        ]
                         {{- end }}
                         {{- if .observed.composite.resource.spec.allowlist }},
-                        "allowlist": {{ .observed.composite.resource.spec.allowlist | toJson }}
+                        "allowlist": [
+                          {{- range $i, $entry := .observed.composite.resource.spec.allowlist }}
+                          {{- if $i }},{{- end }}
+                          {{- if kindIs "string" $entry }}
+                          {"id": {{ $entry | toJson }}, "active": true}
+                          {{- else }}
+                          {{- $domain := "" }}
+                          {{- range $key, $value := $entry }}
+                          {{- if ne $key "active" }}
+                          {{- $domain = $key }}
+                          {{- end }}
+                          {{- end }}
+                          {"id": {{ $domain | toJson }}, "active": {{ $entry.active | default true }}}
+                          {{- end }}
+                          {{- end }}
+                        ]
                         {{- end }}
                         {{- if .observed.composite.resource.spec.settings }},
                         "settings": {{ .observed.composite.resource.spec.settings | toJson }}
