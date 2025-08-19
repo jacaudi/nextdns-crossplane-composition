@@ -75,23 +75,13 @@ spec:
                     blocklists:
                       type: array
                       items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          active:
-                            type: boolean
+                        type: string
                     disguisedTrackers:
                       type: boolean
                     natives:
                       type: array
                       items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          active:
-                            type: boolean
+                        type: string
                 parentalControl:
                   type: object
                   properties:

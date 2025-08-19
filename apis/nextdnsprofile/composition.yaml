@@ -51,7 +51,33 @@ spec:
                         "security": {{ .observed.composite.resource.spec.security | toJson }}
                         {{- end }}
                         {{- if .observed.composite.resource.spec.privacy }},
-                        "privacy": {{ .observed.composite.resource.spec.privacy | toJson }}
+                        "privacy": {
+                          {{- if .observed.composite.resource.spec.privacy.allowAffiliate }}
+                          "allowAffiliate": {{ .observed.composite.resource.spec.privacy.allowAffiliate }}
+                          {{- end }}
+                          {{- if .observed.composite.resource.spec.privacy.disguisedTrackers }}
+                          {{- if .observed.composite.resource.spec.privacy.allowAffiliate }},{{- end }}
+                          "disguisedTrackers": {{ .observed.composite.resource.spec.privacy.disguisedTrackers }}
+                          {{- end }}
+                          {{- if .observed.composite.resource.spec.privacy.blocklists }}
+                          {{- if or .observed.composite.resource.spec.privacy.allowAffiliate .observed.composite.resource.spec.privacy.disguisedTrackers }},{{- end }}
+                          "blocklists": [
+                            {{- range $i, $blocklist := .observed.composite.resource.spec.privacy.blocklists }}
+                            {{- if $i }},{{- end }}
+                            {"id": {{ $blocklist | toJson }}}
+                            {{- end }}
+                          ]
+                          {{- end }}
+                          {{- if .observed.composite.resource.spec.privacy.natives }}
+                          {{- if or .observed.composite.resource.spec.privacy.allowAffiliate .observed.composite.resource.spec.privacy.disguisedTrackers .observed.composite.resource.spec.privacy.blocklists }},{{- end }}
+                          "natives": [
+                            {{- range $i, $native := .observed.composite.resource.spec.privacy.natives }}
+                            {{- if $i }},{{- end }}
+                            {"id": {{ $native | toJson }}}
+                            {{- end }}
+                          ]
+                          {{- end }}
+                        }
                         {{- end }}
                         {{- if .observed.composite.resource.spec.parentalControl }},
                         "parentalControl": {{ .observed.composite.resource.spec.parentalControl | toJson }}
