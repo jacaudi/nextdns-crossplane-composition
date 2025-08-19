@@ -59,12 +59,7 @@ spec:
                     tlds:
                       type: array
                       items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          active:
-                            type: boolean
+                        type: string
                     typosquatting:
                       type: boolean
                 privacy:
@@ -112,25 +107,11 @@ spec:
                 denylist:
                   type: array
                   items:
-                    oneOf:
-                      - type: string
-                      - type: object
-                        properties:
-                          active:
-                            type: boolean
-                        additionalProperties:
-                          type: string
+                    type: string
                 allowlist:
                   type: array
                   items:
-                    oneOf:
-                      - type: string
-                      - type: object
-                        properties:
-                          active:
-                            type: boolean
-                        additionalProperties:
-                          type: string
+                    type: string
                 settings:
                   type: object
                   properties:

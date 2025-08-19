@@ -12,15 +12,20 @@ spec:
   privacy:
     disguisedTrackers: true
     allowAffiliate: false
+    blocklists:
+      - oisd
+      - steven-black
+      - easyprivacy
+      - hagezi-multi-pro
     natives:
-      - id: windows
-      - id: apple
-      - id: samsung
-      - id: xiaomi
-      - id: huawei
-      - id: alexa
-      - id: roku
-      - id: sonos
+      - windows
+      - apple
+      - samsung
+      - xiaomi
+      - huawei
+      - alexa
+      - roku
+      - sonos
   security:
     threatIntelligenceFeeds: true
     aiThreatDetection: true
@@ -35,12 +40,16 @@ spec:
     parking: true
     csam: true
     tlds:
-      - id: ru
-      - id: ch
-      - id: pizza
+      - ru
+      - ch
+      - pizza
   parentalControl:
     safeSearch: false
     youtubeRestrictedMode: true
+  allowlist:
+    - mixpanel.com
+    - newrelic.com
+    - mailchimp.com
+    - hulu.com
   denylist:
-    - id: accuweather.com
-      active: true
+    - accuweather.com

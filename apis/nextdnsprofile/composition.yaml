@@ -48,7 +48,25 @@ spec:
                       {
                         "name": {{ .observed.composite.resource.spec.name | toJson }}
                         {{- if .observed.composite.resource.spec.security }},
-                        "security": {{ .observed.composite.resource.spec.security | toJson }}
+                        "security": {
+                          {{- $needsComma := false }}
+                          {{- range $key, $value := .observed.composite.resource.spec.security }}
+                          {{- if ne $key "tlds" }}
+                          {{- if $needsComma }},{{- end }}
+                          {{ $key | toJson }}: {{ $value | toJson }}
+                          {{- $needsComma = true }}
+                          {{- end }}
+                          {{- end }}
+                          {{- if .observed.composite.resource.spec.security.tlds }}
+                          {{- if $needsComma }},{{- end }}
+                          "tlds": [
+                            {{- range $i, $tld := .observed.composite.resource.spec.security.tlds }}
+                            {{- if $i }},{{- end }}
+                            {"id": {{ $tld | toJson }}}
+                            {{- end }}
+                          ]
+                          {{- end }}
+                        }
                         {{- end }}
                         {{- if .observed.composite.resource.spec.privacy }},
                         "privacy": {
@@ -84,37 +102,17 @@ spec:
                         {{- end }}
                         {{- if .observed.composite.resource.spec.denylist }},
                         "denylist": [
-                          {{- range $i, $entry := .observed.composite.resource.spec.denylist }}
+                          {{- range $i, $domain := .observed.composite.resource.spec.denylist }}
                           {{- if $i }},{{- end }}
-                          {{- if kindIs "string" $entry }}
-                          {"id": {{ $entry | toJson }}, "active": true}
-                          {{- else }}
-                          {{- $domain := "" }}
-                          {{- range $key, $value := $entry }}
-                          {{- if ne $key "active" }}
-                          {{- $domain = $key }}
-                          {{- end }}
-                          {{- end }}
-                          {"id": {{ $domain | toJson }}, "active": {{ $entry.active | default true }}}
-                          {{- end }}
+                          {"id": {{ $domain | toJson }}, "active": true}
                           {{- end }}
                         ]
                         {{- end }}
                         {{- if .observed.composite.resource.spec.allowlist }},
                         "allowlist": [
-                          {{- range $i, $entry := .observed.composite.resource.spec.allowlist }}
+                          {{- range $i, $domain := .observed.composite.resource.spec.allowlist }}
                           {{- if $i }},{{- end }}
-                          {{- if kindIs "string" $entry }}
-                          {"id": {{ $entry | toJson }}, "active": true}
-                          {{- else }}
-                          {{- $domain := "" }}
-                          {{- range $key, $value := $entry }}
-                          {{- if ne $key "active" }}
-                          {{- $domain = $key }}
-                          {{- end }}
-                          {{- end }}
-                          {"id": {{ $domain | toJson }}, "active": {{ $entry.active | default true }}}
-                          {{- end }}
+                          {"id": {{ $domain | toJson }}, "active": true}
                           {{- end }}
                         ]
                         {{- end }}
